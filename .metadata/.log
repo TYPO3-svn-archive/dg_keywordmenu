@@ -1,0 +1,32 @@
+!SESSION 2009-07-23 15:24:17.221 -----------------------------------------------
+eclipse.buildId=M20080911-1700
+java.version=1.5.0_16
+java.vendor=Apple Computer, Inc.
+BootLoader constants: OS=macosx, ARCH=x86, WS=carbon, NL=de_DE
+Framework arguments:  -keyring /Users/dg/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws carbon -arch x86 -data /Volumes/192.168.42.202/dud-test/typo3conf/ext/dg_keywordmenu -keyring /Users/dg/.eclipse_keyring -consoleLog -showlocation
+
+!ENTRY org.eclipse.ui.ide 4 4 2009-07-23 15:24:18.991
+!MESSAGE Could not obtain lock for workspace location
+
+!ENTRY org.eclipse.ui.ide 4 4 2009-07-23 15:24:18.992
+!MESSAGE Could not obtain lock for workspace location
+!STACK 0
+java.io.IOException: An error occurred while locking file "/Volumes/192.168.42.202/dud-test/typo3conf/ext/dg_keywordmenu/.metadata/.lock": "Operation not supported". A common reason is that the file system or Runtime Environment does not support file locking for that location. Please choose a different location, or disable file locking passing "-Dosgi.locking=none" as a VM argument.
+	at org.eclipse.core.runtime.internal.adaptor.Locker_JavaNio.lock(Locker_JavaNio.java:45)
+	at org.eclipse.core.runtime.internal.adaptor.BasicLocation.lock(BasicLocation.java:191)
+	at org.eclipse.core.runtime.internal.adaptor.BasicLocation.lock(BasicLocation.java:160)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.checkInstanceLocation(IDEApplication.java:184)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:103)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:193)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:386)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:549)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:504)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1236)
