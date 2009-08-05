@@ -1,1 +1,8 @@
-Setup
+plugin.tx_dgkeywordmenu_pi1 {
+	templateFile = EXT:dg_keywordmenu/res/keywordmenu.tmpl
+	code =
+	pidList =
+	singlePid =
+	
+	isLoaded = yes
+}

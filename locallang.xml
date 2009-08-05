@@ -8,10 +8,22 @@
 		<languageKey index="default" type="array">
 			<label index="pi1_title">Keywordmenu</label>
 			<label index="pi1_plus_wiz_description">Adds a Keywordmenu to the page.</label>
+			<label index="pi_flexform.sdef">General adjustments</label>
+				<label index="pi_flexform.what_to_display">What To Display:</label>
+				<label index="pi_flexform.template_file">Template:</label>
+				<label index="pi_flexform.single_pid">Single Page Display:</label>
+			<label index="pi_flexform.skey">Keywords</label>
+				<label index="pi_flexform.keywords">Keywords:</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="pi1_title">Keywordmenu</label>
 			<label index="pi1_plus_wiz_description">Platziert ein Keywordmenu auf der Seite.</label>
+			<label index="pi_flexform.sdef">Allgemeine Einstellungen</label>
+				<label index="pi_flexform.what_to_display">Was anzeigen?</label>
+				<label index="pi_flexform.template_file">Template:</label>
+				<label index="pi_flexform.single_pid">Seite für Single:</label>
+			<label index="pi_flexform.skey">Keywords</label>
+				<label index="pi_flexform.keywords">Keywords:</label>
 		</languageKey>
 	</data>
 </T3locallang>

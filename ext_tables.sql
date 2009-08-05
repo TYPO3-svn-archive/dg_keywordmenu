@@ -22,8 +22,6 @@ CREATE TABLE tx_dgkeywordmenu_keywords (
 	sorting int(10) DEFAULT '0' NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
 	keyword tinytext,
 	link tinytext,
 	

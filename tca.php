@@ -55,34 +55,6 @@ $TCA['tx_dgkeywordmenu_keywords'] = array (
 				'default' => '0'
 			)
 		),
-		'starttime' => array (		
-			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
-			'config'  => array (
-				'type'     => 'input',
-				'size'     => '8',
-				'max'      => '20',
-				'eval'     => 'date',
-				'default'  => '0',
-				'checkbox' => '0'
-			)
-		),
-		'endtime' => array (		
-			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
-			'config'  => array (
-				'type'     => 'input',
-				'size'     => '8',
-				'max'      => '20',
-				'eval'     => 'date',
-				'checkbox' => '0',
-				'default'  => '0',
-				'range'    => array (
-					'upper' => mktime(3, 14, 7, 1, 19, 2038),
-					'lower' => mktime(0, 0, 0, date('m')-1, date('d'), date('Y'))
-				)
-			)
-		),
 		'keyword' => array (		
 			'exclude' => 1,		
 			'label' => 'LLL:EXT:dg_keywordmenu/locallang_db.xml:tx_dgkeywordmenu_keywords.keyword',		
