@@ -6,7 +6,16 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="errorIncludeStatic">You must include static "Keywordmenu" for any output</label>
+			<label index="errorIncludeStatic">ERROR: You must include static "Keywordmenu" for any output</label>
+			<label index="errorWhatDisplay">ERROR: Select a display type. Chose from flexform or type in TS-setup; KEYWORDS, MENU or BOTH. For more information look at the manual</label>
+			<label index="errorSinglePid">ERROR: Please chose the page id where the list with menu are shown, in Flexform or TS</label>
+			<label index="errorNoEntry">No Entry</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="errorIncludeStatic">ERROR: You must include static "Keywordmenu" for any output</label>
+			<label index="errorWhatDisplay">ERROR: Select a display type. Chose from flexform or type in TS-setup; KEYWORDS, MENU or BOTH. For more information look at the manual</label>
+			<label index="errorSinglePid">ERROR: Please chose the page id where the list with menu are shown, in Flexform or TS</label>
+			<label index="errorNoEntry">Kein Eintrag</label>
 		</languageKey>
 	</data>
 </T3locallang>

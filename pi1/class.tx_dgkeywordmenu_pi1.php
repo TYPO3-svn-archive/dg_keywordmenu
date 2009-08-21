@@ -55,27 +55,29 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		$content='';
 
 		if ($this->conf['isLoaded']!='yes')
-	      return $this->pi_getLL('errorIncludeStatic');
+	      return '<H1>'.$this->pi_getLL('errorIncludeStatic').'</H1>';
 		
 		// what will be displayed
 		switch ($this->theCode) {
 			case 'KEYWORDS':
-				$content .= $this->display_list_pages();
+				$content .= $this->display_list();
 				break;
 
-			case 'SINGLE':
-				$content .= $this->display_list_menu();
-				break;
-				
 			case 'MENU':
 				$content .= $this->display_menu();
 				break;
 				
+			case 'BOTH':
+				$content .= $this->display_menu();
+				$content .= $this->display_list_headline();
+				$content .= $this->display_list();
+				break;
+				
 			default:
-				$content .= '<h1>Select a display type</h1><p>Chose from flexform or type in TS-setup; KEYWORDS, SINGLE or MENU<br />For more information look at the manual</p>';
+				$content .= '<H1>'.$this->pi_getLL('errorWhatDisplay').'</H1>';
 		}
 	
-//		t3lib_div::debug($this->conf, FLEXuTS);
+		//t3lib_div::debug($this->conf, FLEXuTS);
 
 		return $this->pi_wrapInBaseClass($content);
 	}
@@ -128,8 +130,31 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 
 		// pid for single with priority on Flexform
 		$this->conf['singlePid'] = $this->conf['single_pid'] ? $this->conf['single_pid'] : $this->conf['singlePid'];
-		if ($this->theCode == 'SINGLE') $this->conf['singlePid'] = $GLOBALS['TSFE']->id;
+		if ($this->theCode == 'BOTH') $this->conf['singlePid'] = $GLOBALS['TSFE']->id;
 		
+		// load GET parameter
+		$this->currentLetter = htmlspecialchars($this->piVars['letter']);
+		if ($this->theCode == 'BOTH' && $this->currentLetter =='') $this->currentLetter = 'A';
+				
+	}
+	
+	/**
+	 * display keywordlist
+	 *
+	 * @return	html code of the keywordlist headline
+	 */
+	function display_list_headline() {
+		// Read in the part of the template file for keyword listing
+		$template = $this->cObj->getSubpart($this->tmpl, '###TEMPLATE_KEYWORD_LIST_HEADLINE###');
+		// Get subpart template
+		$subTemplate = $this->cObj->getSubpart($template, '###HEADLINE###');
+		
+		$subPartContent = $this->cObj->substituteMarker($subTemplate, '###HEADLINELETTER###', $this->currentLetter);
+		
+		// Substitute subpart
+		$content = $this->cObj->substituteSubpart($template, '###HEADLINE###', $subPartContent);
+		
+		return $content;
 	}
 	
 	/**
@@ -137,7 +162,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 	 *
 	 * @return	html code of the keywordlist
 	 */
-	function display_list_pages() {
+	function display_list() {
 		// Read in the part of the template file for keyword listing
 		$template = $this->cObj->getSubpart($this->tmpl, '###TEMPLATE_KEYWORD_LIST###');
 		// Get subpart template
@@ -150,10 +175,16 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 //		$orderBy = 'keyword';
 //		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $orderBy);
 		
-		// query mit inner join nach der alten schreibweise
+		// query
 		$select = 'T1.keyword, T1.link';
 		$from = 'tx_dgkeywordmenu_keywords T1, pages T2';
-		$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 AND T1.uid in ('.$this->conf['keywords'].') AND T1.pid = '.$this->pidList.'';
+		if ($this->theCode == 'BOTH'){
+			//inner join nach der alten schreibweise
+			$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 AND T1.keyword LIKE ("'.$this->currentLetter.'%") AND T1.pid = '.$this->pidList.'';
+		} else {
+			// inner join nach der alten schreibweise
+			$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 AND T1.uid in ('.$this->conf['keywords'].') AND T1.pid = '.$this->pidList.'';
+		}
 		$groupBy = '';
 		$orderBy = 'T1.keyword';
 		$limit = '';
@@ -168,15 +199,19 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 //		ORDER BY T1.keyword;
 		
 		// get keywords from database and put it in marker
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {			
-			$typolink_conf=array(
-				"title" => $row['keyword'],
-				"no_cache" => 0,
-				"parameter" => $row['link'],
-				"additionalParams" => '');
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			if ($row['keyword'] == '' && $this->theCode == 'BOTH'){
+				$subPartContent .= $this->pi_getLL('errorNoEntry');
+			} else {		
+				$typolink_conf=array(
+					'title' => $row['keyword'],
+					'no_cache' => 0,
+					'parameter' => $row['link'],
+					'additionalParams' => '');
 			
-			$listItem = $this->cObj->typolink($row['keyword'], $typolink_conf);
-			$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $listItem);
+				$listItem = $this->cObj->typolink($row['keyword'], $typolink_conf);
+				$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $listItem);
+			}
 		}
 		
 		// Substitute subpart
@@ -187,40 +222,32 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		
 	
 	/**
-	 * display keywordlist with menu
-	 *
-	 * @return	The content that is displayed on the website
-	 */
-	function display_list_menu() {
-		
-	}
-	
-	/**
 	 * displays the a-z menu
 	 *
 	 * @return	html code of the a-z menu
 	 */
 	function display_menu() {
-		$menuIndexKeys = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+		// split indexKeys in an array
+		$menuIndexKeys = explode(',',$this->conf['indexKeys']);
 		
 		// Read in the part of the template file for keyword listing
 		$template = $this->cObj->getSubpart($this->tmpl, '###TEMPLATE_MENU###');
 		// Get subpart template
 		$subTemplate = $this->cObj->getSubpart($template, '###LETTERS###');
 		
-		if ($this->conf['singlePid'] == '') return '<p>Please chose the page where the list with menu are shown, in Flexform or TS</p>';
-		
-		$currentLetter = htmlspecialchars($this->piVars['letter']);
-		
+		if ($this->conf['singlePid'] == '') return '<H1>'.$this->pi_getLL('errorSinglePid').'</H1>';
+				
 		foreach ($menuIndexKeys as $indexKeys) {
-			if ($currentLetter == $indexKeys){
-				$menu = $indexKeys;
+			if ($this->currentLetter == $indexKeys){
+				$letter = $indexKeys;
 			} else {
-				$menu = $this->pi_linkTP($indexKeys, array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['singlePid']);	
-			}	
-			$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###LETTER###', $menu);
+				$letter = $this->pi_linkTP($indexKeys, array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['singlePid']);	
+			}
+			
+			$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###LETTER###', $letter);
 		}
 	
+		// Substitute subpart
 		$content = $this->cObj->substituteSubpart($template, '###LETTERS###', $subPartContent);
 		
 		return $content;

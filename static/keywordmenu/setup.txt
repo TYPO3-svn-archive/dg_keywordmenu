@@ -5,4 +5,14 @@ plugin.tx_dgkeywordmenu_pi1 {
 	singlePid =
 	
 	isLoaded = yes
+	indexKeys = A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
+	
+	_CSS_DEFAULT_STYLE (
+		.tx-dgkeywordmenu-currentLetter {margin-bottom: 5px; font-size: 130%;}
+		.tx-dgkeywordmenu-keywordList {padding: 0;margin: 0;}
+		.tx-dgkeywordmenu-keywordListItem {list-style-type: none;}
+		.tx-dgkeywordmenu-menuList {padding: 0;}
+		.tx-dgkeywordmenu-menuListItem {list-style-type: none;display: inline;}
+		.tx-dgkeywordmenu-menuListItem a {text-decoration: underline;}
+	)
 }
