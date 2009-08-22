@@ -199,20 +199,18 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 //		ORDER BY T1.keyword;
 		
 		// get keywords from database and put it in marker
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			if ($row['keyword'] == '' && $this->theCode == 'BOTH'){
-				$subPartContent .= $this->pi_getLL('errorNoEntry');
-			} else {		
-				$typolink_conf=array(
-					'title' => $row['keyword'],
-					'no_cache' => 0,
-					'parameter' => $row['link'],
-					'additionalParams' => '');
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {	
+			$typolink_conf=array(
+				'title' => $row['keyword'],
+				'no_cache' => 0,
+				'parameter' => $row['link'],
+				'additionalParams' => '');
 			
-				$listItem = $this->cObj->typolink($row['keyword'], $typolink_conf);
-				$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $listItem);
-			}
+			$listItem = $this->cObj->typolink($row['keyword'], $typolink_conf);
+			$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $listItem);
 		}
+		
+		if ($subPartContent == '' && $this->theCode == 'BOTH') $subPartContent = $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $this->pi_getLL('errorNoEntry'));
 		
 		// Substitute subpart
 		$content = $this->cObj->substituteSubpart($template, '###KEYWORDS###', $subPartContent);
