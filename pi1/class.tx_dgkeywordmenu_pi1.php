@@ -174,17 +174,35 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 //		$where = 'deleted = 0 AND hidden = 0 AND uid in ('.$this->conf['keywords'].') AND pid = '.$this->pidList.'';
 //		$orderBy = 'keyword';
 //		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $orderBy);
+
+		// WHERE clause addition with support for umlauts
+		if ($this->theCode =='BOTH'){
+			if ($this->currentLetter == 'A' || $this->currentLetter == 'O' || $this->currentLetter == 'U'){
+				switch ($this->currentLetter) {
+				case 'A':
+					$umlaut = '€';
+					break;
+
+				case 'O':
+					$umlaut = '…';
+					break;
+				
+				case 'U':
+					$umlaut = '†';
+					break;
+				}
+				$whereAddition = 'AND T1.keyword LIKE "'.$this->currentLetter.'%" OR T1.keyword LIKE ("'.$umlaut.'%")';
+			} else {
+				$whereAddition = 'AND T1.keyword LIKE "'.$this->currentLetter.'%"';
+			}
+		} else {
+			$whereAddition = 'AND T1.uid in ('.$this->conf['keywords'].')';
+		}
 		
-		// query
+		// query mit inner join nach der alten schreibweise
 		$select = 'T1.keyword, T1.link';
 		$from = 'tx_dgkeywordmenu_keywords T1, pages T2';
-		if ($this->theCode == 'BOTH'){
-			//inner join nach der alten schreibweise
-			$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 AND T1.keyword LIKE ("'.$this->currentLetter.'%") AND T1.pid = '.$this->pidList.'';
-		} else {
-			// inner join nach der alten schreibweise
-			$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 AND T1.uid in ('.$this->conf['keywords'].') AND T1.pid = '.$this->pidList.'';
-		}
+		$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 '.$whereAddition.' AND T1.pid = '.$this->pidList.'';
 		$groupBy = '';
 		$orderBy = 'T1.keyword';
 		$limit = '';
