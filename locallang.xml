@@ -8,6 +8,8 @@
 		<languageKey index="default" type="array">
 			<label index="pi1_title">Keywordmenu</label>
 			<label index="pi1_plus_wiz_description">Adds a Keywordmenu to the page.</label>
+			<label index="cms_layout.mode">Displaying: %s</label>
+			<label index="cms_layout.not_configured">Plugin is not configured!</label>
 			<label index="pi_flexform.sdef">General adjustments</label>
 				<label index="pi_flexform.what_to_display">What To Display:</label>
 				<label index="pi_flexform.template_file">Template:</label>
