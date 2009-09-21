@@ -10,5 +10,5 @@ t3lib_extMgm::addUserTSConfig('
 ');
 
 // Page module hook
-$TYPO3_CONF_VARS['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['dg_keywordmenu_pi1'][] = 'EXT:dg_keywordmenu/class.backendPreview.php:&tx_backendPreview->main';
+$TYPO3_CONF_VARS['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['dg_keywordmenu_pi1'][] = 'EXT:dg_keywordmenu/class.backendPreview.php:&tx_backendPreviewKeyword->main';
 ?>

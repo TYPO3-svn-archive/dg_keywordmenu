@@ -44,7 +44,7 @@
  * @package TYPO3
  * @subpackage tx_dgkeywordmenu
  */
-class tx_backendPreview {
+class tx_backendPreviewKeyword {
 	/**
 	 * Returns information about this extension's pi1 plugin
 	 *
