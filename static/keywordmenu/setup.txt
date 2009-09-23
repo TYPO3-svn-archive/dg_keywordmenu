@@ -3,6 +3,13 @@ plugin.tx_dgkeywordmenu_pi1 {
 	code =
 	pidList =
 	singlePid =
+	enableAllLink = 
+	
+	## wraps for ALL view
+	sectionHeaderWrap = <h4 class="tx-dgkeywordmenu-currentLetter">|:</h4>
+	keywordSectionWrap = <div>|</div>
+ 	keywordListWrap = <ul class="tx-dgkeywordmenu-keywordList">|</ul>
+ 	keywordListItemWrap = <li class="tx-dgkeywordmenu-keywordListItem">|</li>
 	
 	isLoaded = yes
 	indexKeys = A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
