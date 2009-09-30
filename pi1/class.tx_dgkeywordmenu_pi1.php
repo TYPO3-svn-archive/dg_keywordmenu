@@ -26,14 +26,16 @@
  *
  *
  *
- *   52: class tx_dgkeywordmenu_pi1 extends tslib_pibase
- *   65:     function main($content, $conf)
- *  104:     function init($conf)
- *  159:     function display_list_headline()
- *  178:     function display_list()
- *  258:     function display_menu()
+ *   54: class tx_dgkeywordmenu_pi1 extends tslib_pibase
+ *   67:     function main($content, $conf)
+ *  110:     function init($conf)
+ *  165:     function display_list_headline()
+ *  179:     function display_list()
+ *  264:     function display_list_all()
+ *  349:     function display_menu()
+ *  403:     function simplifyString($str)
  *
- * TOTAL FUNCTIONS: 5
+ * TOTAL FUNCTIONS: 7
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
@@ -145,9 +147,8 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		$this->conf['what_to_display'];
 
 		// pid for single with priority on Flexform
-		$this->conf['singlePid'] = $this->conf['single_pid'] ? $this->conf['single_pid'] :
-		$this->conf['singlePid'];
-		if ($this->theCode == 'BOTH') $this->conf['singlePid'] = $GLOBALS['TSFE']->id;
+		$this->conf['bothPid'] = $this->conf['both_pid'] ? $this->conf['both_pid'] : $this->conf['bothPid'];
+		if ($this->theCode == 'BOTH') $this->conf['bothPid'] = $GLOBALS['TSFE']->id;
 
 		// load GET parameter
 		$this->currentLetter = htmlspecialchars(strtoupper($this->piVars['letter']));
@@ -161,17 +162,11 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 	 * @return	html code of the keywordlist headline
 	 */
 	function display_list_headline() {
-		// Read in the part of the template file for keyword listing
+		// Read in the part of the template file for the headline
 		$template = $this->cObj->getSubpart($this->tmpl, '###TEMPLATE_KEYWORD_LIST_HEADLINE###');
-		
-		// Get subpart template
-		$subTemplate = $this->cObj->getSubpart($template, '###HEADLINE###');
 
 		// Substitute marker
-		$subPartContent = $this->cObj->substituteMarker($subTemplate, '###HEADLINELETTER###', $this->currentLetter);
-
-		// Substitute subpart
-		$content = $this->cObj->substituteSubpart($template, '###HEADLINE###', $subPartContent);
+		$content = $this->cObj->substituteMarker($template, '###HEADLINELETTER###', $this->currentLetter);
 
 		return $content;
 	}
@@ -363,7 +358,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		// Get subpart template
 		$subTemplate = $this->cObj->getSubpart($template, '###LETTERS###');
 
-		if ($this->conf['singlePid'] == '') return '<H1>'.$this->pi_getLL('errorSinglePid').'</H1>';
+		if ($this->conf['bothPid'] == '') return '<H1>'.$this->pi_getLL('errorBothPid').'</H1>';
 
 		foreach ($menuIndexKeys as $indexKeys) {
 			if ($indexKeys == 'ALL') {
@@ -371,7 +366,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 				if ($this->currentLetter == 'ALL') {
 					$letter = $this->pi_getLL('allLable');
 				} else {
-					$letter = $this->pi_linkTP($this->pi_getLL('allLable'), array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['singlePid']);
+					$letter = $this->pi_linkTP($this->pi_getLL('allLable'), array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['bothPid']);
 				
 					// title parameter for link
 					$params = array('class' => 'tx-dgkeywordmenu-allLink');
@@ -383,7 +378,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 				if ($this->currentLetter == $indexKeys) {
 					$letter = $indexKeys;
 				} else {
-					$letter = $this->pi_linkTP($indexKeys, array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['singlePid']);
+					$letter = $this->pi_linkTP($indexKeys, array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['bothPid']);
 				}
 			}
 

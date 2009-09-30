@@ -13,7 +13,6 @@
 				<what_to_display>
 					<TCEforms>
 					<label>LLL:EXT:dg_keywordmenu/locallang.xml:pi_flexform.what_to_display</label>
-					<onChange>reload</onChange>
 					<config>
 						<type>select</type>
 						<items type="array">
@@ -58,10 +57,9 @@
 						</config>
 					</TCEforms>
 				</template_file>
-				<single_pid>
+				<both_pid>
 					<TCEforms>
-					<label>LLL:EXT:dg_keywordmenu/locallang.xml:pi_flexform.single_pid</label>
-					<displayCond>FIELD:what_to_display:=:MENU</displayCond>
+					<label>LLL:EXT:dg_keywordmenu/locallang.xml:pi_flexform.both_pid</label>
 						<config>
 							<type>group</type>
 							<internal_type>db</internal_type>
@@ -72,12 +70,11 @@
 							<show_thumbs>1</show_thumbs>
 						</config>
 					</TCEforms>
-				</single_pid>
+				</both_pid>
 				<storage_pid>
 					<TCEforms>
 						<exclude>1</exclude>
 						<label>LLL:EXT:lang/locallang_general.php:LGL.startingpoint</label>
-						<displayCond>FIELD:what_to_display:=:KEYWORDS,BOTH</displayCond>
 						<config>
 							<type>group</type>
 							<internal_type>db</internal_type>

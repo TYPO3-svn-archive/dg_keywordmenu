@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Keywordmenu',
-	'description' => 'Description',
+	'description' => 'A keyword management with various views',
 	'category' => 'plugin',
 	'author' => 'Dennis Grote',
 	'author_email' => 'd.grote@dd-medien.de',
