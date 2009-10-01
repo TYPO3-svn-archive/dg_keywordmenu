@@ -25,8 +25,8 @@
 									<numIndex index="1">MENU</numIndex>
 							</numIndex>
 								<numIndex index="2" type="array">
-									<numIndex index="0">BOTH</numIndex>
-									<numIndex index="1">BOTH</numIndex>
+									<numIndex index="0">LIST</numIndex>
+									<numIndex index="1">LIST</numIndex>
 							</numIndex>
 						</items>
 						<maxitems>1</maxitems>
@@ -57,9 +57,9 @@
 						</config>
 					</TCEforms>
 				</template_file>
-				<both_pid>
+				<list_pid>
 					<TCEforms>
-					<label>LLL:EXT:dg_keywordmenu/locallang.xml:pi_flexform.both_pid</label>
+					<label>LLL:EXT:dg_keywordmenu/locallang.xml:pi_flexform.list_pid</label>
 						<config>
 							<type>group</type>
 							<internal_type>db</internal_type>
@@ -70,7 +70,7 @@
 							<show_thumbs>1</show_thumbs>
 						</config>
 					</TCEforms>
-				</both_pid>
+				</list_pid>
 				<storage_pid>
 					<TCEforms>
 						<exclude>1</exclude>

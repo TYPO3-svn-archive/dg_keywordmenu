@@ -29,11 +29,11 @@
  *   54: class tx_dgkeywordmenu_pi1 extends tslib_pibase
  *   67:     function main($content, $conf)
  *  110:     function init($conf)
- *  165:     function display_list_headline()
- *  179:     function display_list()
- *  264:     function display_list_all()
- *  349:     function display_menu()
- *  403:     function simplifyString($str)
+ *  163:     function display_list_headline()
+ *  178:     function display_list()
+ *  263:     function display_list_all()
+ *  348:     function display_menu()
+ *  402:     function simplifyString($str)
  *
  * TOTAL FUNCTIONS: 7
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -80,7 +80,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 				$content .= $this->display_menu();
 				break;
 				 
-			case 'BOTH':
+			case 'LIST':
 				$content .= $this->display_menu();
 				if ($this->currentLetter == 'ALL') {
 					$content .= $this->display_list_all();
@@ -143,16 +143,15 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		}
 
 		// put what to display in theCode priority on TS
-		$this->theCode = $this->conf['code'] ? $this->conf['code'] :
-		$this->conf['what_to_display'];
+		$this->theCode = $this->conf['code'] ? $this->conf['code'] : $this->conf['what_to_display'];
 
 		// pid for single with priority on Flexform
-		$this->conf['bothPid'] = $this->conf['both_pid'] ? $this->conf['both_pid'] : $this->conf['bothPid'];
-		if ($this->theCode == 'BOTH') $this->conf['bothPid'] = $GLOBALS['TSFE']->id;
+		$this->conf['listPid'] = $this->conf['list_pid'] ? $this->conf['list_pid'] : $this->conf['listPid'];
+		if ($this->theCode == 'LIST') $this->conf['listPid'] = $GLOBALS['TSFE']->id;
 
 		// load GET parameter
 		$this->currentLetter = htmlspecialchars(strtoupper($this->piVars['letter']));
-		if ($this->theCode == 'BOTH' && $this->currentLetter == '') $this->currentLetter = 'A';
+		if ($this->theCode == 'LIST' && $this->currentLetter == '') $this->currentLetter = 'A';
 
 	}
 	 
@@ -191,7 +190,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		//  $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $orderBy);
 
 		// WHERE clause addition with support for umlauts
-		if ($this->theCode == 'BOTH') {
+		if ($this->theCode == 'LIST') {
 			if ($this->currentLetter == 'A' || $this->currentLetter == 'O' || $this->currentLetter == 'U') {
 				switch ($this->currentLetter) {
 					case 'A':
@@ -247,7 +246,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 			$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $listItem);
 		}
 
-		if ($subPartContent == '' && $this->theCode == 'BOTH') $subPartContent = $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $this->pi_getLL('errorNoEntry'));
+		if ($subPartContent == '' && $this->theCode == 'LIST') $subPartContent = $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $this->pi_getLL('errorNoEntry'));
 		 
 		// Substitute subpart
 		$content = $this->cObj->substituteSubpart($template, '###KEYWORDS###', $subPartContent);
@@ -358,7 +357,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		// Get subpart template
 		$subTemplate = $this->cObj->getSubpart($template, '###LETTERS###');
 
-		if ($this->conf['bothPid'] == '') return '<H1>'.$this->pi_getLL('errorBothPid').'</H1>';
+		if ($this->conf['listPid'] == '') return '<H1>'.$this->pi_getLL('errorListPid').'</H1>';
 
 		foreach ($menuIndexKeys as $indexKeys) {
 			if ($indexKeys == 'ALL') {
@@ -366,7 +365,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 				if ($this->currentLetter == 'ALL') {
 					$letter = $this->pi_getLL('allLable');
 				} else {
-					$letter = $this->pi_linkTP($this->pi_getLL('allLable'), array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['bothPid']);
+					$letter = $this->pi_linkTP($this->pi_getLL('allLable'), array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['listPid']);
 				
 					// title parameter for link
 					$params = array('class' => 'tx-dgkeywordmenu-allLink');
@@ -378,7 +377,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 				if ($this->currentLetter == $indexKeys) {
 					$letter = $indexKeys;
 				} else {
-					$letter = $this->pi_linkTP($indexKeys, array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['bothPid']);
+					$letter = $this->pi_linkTP($indexKeys, array($this->prefixId.'[letter]' => $indexKeys), 1, $this->conf['listPid']);
 				}
 			}
 
