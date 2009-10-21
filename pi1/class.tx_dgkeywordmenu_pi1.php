@@ -31,9 +31,9 @@
  *  110:     function init($conf)
  *  163:     function display_list_headline()
  *  178:     function display_list()
- *  263:     function display_list_all()
- *  348:     function display_menu()
- *  402:     function simplifyString($str)
+ *  273:     function display_list_all()
+ *  358:     function display_menu()
+ *  412:     function simplifyString($str)
  *
  * TOTAL FUNCTIONS: 7
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -145,7 +145,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		// put what to display in theCode priority on TS
 		$this->theCode = $this->conf['code'] ? $this->conf['code'] : $this->conf['what_to_display'];
 
-		// pid for single with priority on Flexform
+		// pid for list with priority on Flexform
 		$this->conf['listPid'] = $this->conf['list_pid'] ? $this->conf['list_pid'] : $this->conf['listPid'];
 		if ($this->theCode == 'LIST') $this->conf['listPid'] = $GLOBALS['TSFE']->id;
 
@@ -156,7 +156,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 	}
 	 
 	/**
-	 * display keywordlist
+	 * display keywordlist headline
 	 *
 	 * @return	html code of the keywordlist headline
 	 */
@@ -182,13 +182,6 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		// Get subpart template
 		$subTemplate = $this->cObj->getSubpart($template, '###KEYWORDS###');
 
-		// query normal
-		//  $select = 'keyword, link';
-		//  $from = 'tx_dgkeywordmenu_keywords';
-		//  $where = 'deleted = 0 AND hidden = 0 AND uid in ('.$this->conf['keywords'].') AND pid = '.$this->pidList.'';
-		//  $orderBy = 'keyword';
-		//  $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $orderBy);
-
 		// WHERE clause addition with support for umlauts
 		if ($this->theCode == 'LIST') {
 			if ($this->currentLetter == 'A' || $this->currentLetter == 'O' || $this->currentLetter == 'U') {
@@ -205,15 +198,21 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 						$umlaut = '†';
 						break;
 				}
+				
+				// addition with umlauts
 				$whereAddition = 'AND T1.keyword LIKE "'.$this->currentLetter.'%" OR T1.keyword LIKE "'.$umlaut.'%"';
 			} else {
+				
+				// addition without umlauts
 				$whereAddition = 'AND T1.keyword LIKE "'.$this->currentLetter.'%"';
 			}
 		} else {
+			
+			// addition for the KEYWORDS view
 			$whereAddition = 'AND T1.uid in ('.$this->conf['keywords'].')';
 		}
 
-		// query mit inner join nach der alten schreibweise
+		// query with inner join in the old way of writing
 		$select = 'T1.keyword, T1.link';
 		$from = 'tx_dgkeywordmenu_keywords T1, pages T2';
 		$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 '.$whereAddition.' AND T1.pid = '.$this->pidList.'';
@@ -222,14 +221,23 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 		$limit = '';
 
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupBy, $orderBy, $limit);
+		
+		// HINT: the normal query and the modern inner join
+		// query normal
+		//  $select = 'keyword, link';
+		//  $from = 'tx_dgkeywordmenu_keywords';
+		//  $where = 'deleted = 0 AND hidden = 0 AND uid in ('.$this->conf['keywords'].') AND pid = '.$this->pidList.'';
+		//  $orderBy = 'keyword';
+		//  $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $orderBy);
 
-		// so sollte ein inner join eigentlich aussehen
+		// this is a modern inner join
 		//  SELECT T1.keyword, T1.link, T2.uid, T2.title
 		//  FROM tx_dgkeywordmenu_keywords T1
 		//  INNER JOIN pages T2 ON T1.link=T2.uid
 		//  WHERE T2.deleted = 0 AND T2.hidden = 0
 		//  ORDER BY T1.keyword;
 
+		
 		// get keywords from database and put it in marker
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			
@@ -239,13 +247,15 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
             	'no_cache' => 0,
             	'parameter' => $row['link'],
            		'additionalParams' => '');
-			 
+
+			// typolink
 			$listItem = $this->cObj->typolink($row['keyword'], $typolink_conf);
 			
 			// Substitute marker
 			$subPartContent .= $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $listItem);
 		}
 
+		// error message if no keyword are found
 		if ($subPartContent == '' && $this->theCode == 'LIST') $subPartContent = $this->cObj->substituteMarker($subTemplate, '###KEYWORD###', $this->pi_getLL('errorNoEntry'));
 		 
 		// Substitute subpart
@@ -262,7 +272,7 @@ class tx_dgkeywordmenu_pi1 extends tslib_pibase {
 	 */
 	function display_list_all() {
 
-		// query mit inner join nach der alten schreibweise
+		// query with inner join in the old way of writing
 		$select = 'T1.keyword, T1.link';
 		$from = 'tx_dgkeywordmenu_keywords T1, pages T2';
 		$where = 'T1.link=T2.uid AND T1.deleted = 0 AND T1.hidden = 0 AND T2.deleted = 0 AND T2.hidden = 0 AND T1.pid = '.$this->pidList.'';
