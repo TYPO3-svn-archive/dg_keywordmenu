@@ -13,7 +13,7 @@
 			<label index="pi_flexform.sdef">General adjustments</label>
 				<label index="pi_flexform.what_to_display">What To Display:</label>
 				<label index="pi_flexform.template_file">Template:</label>
-				<label index="pi_flexform.single_pid">Single Page Display:</label>
+				<label index="pi_flexform.list_pid">LIST Page Pid (for MENU):</label>
 			<label index="pi_flexform.skey">Keywords</label>
 				<label index="pi_flexform.keywords">Keywords:</label>
 		</languageKey>
@@ -23,7 +23,7 @@
 			<label index="pi_flexform.sdef">Allgemeine Einstellungen</label>
 				<label index="pi_flexform.what_to_display">Was anzeigen?</label>
 				<label index="pi_flexform.template_file">Template:</label>
-				<label index="pi_flexform.single_pid">Seite für Single:</label>
+				<label index="pi_flexform.list_pid">Pid der LIST Seite (für MENU):</label>
 			<label index="pi_flexform.skey">Keywords</label>
 				<label index="pi_flexform.keywords">Keywords:</label>
 		</languageKey>
